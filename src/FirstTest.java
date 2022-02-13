@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FirstTest
@@ -18,7 +19,7 @@ public class FirstTest
     private AppiumDriver _driver;
 
     @Before
-    public  void setUp() throws Exception
+    public void setUp() throws Exception
     {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -152,7 +153,7 @@ public class FirstTest
                 By.xpath("//*[@resource-id='org.wikipedia:id/search_container']//*[contains(@class, 'TextView')]"),
                 "Search Wikipedia",
                 "Search field doesn't have expected text"
-                );
+        );
     }
 
     @Test
@@ -196,6 +197,38 @@ public class FirstTest
         boolean isResultDisplayed = isElementDisplayed(By.xpath("//*[contains(@resource-id, 'search_results_list')]//*[contains(@class, 'ViewGroup')]"));
 
         Assert.assertFalse("Search result is still displayed after clear search field", isResultDisplayed);
+    }
+
+    @Test
+    public void testEachItemContainsSearchValue()
+    {
+        String searchValue = "Java";
+
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'SKIP']"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input field",
+                5);
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
+                "Java", "Cannot enter value to search input field",
+                5);
+
+        List<String> listOfArticlesName = getArticlesName(
+                By.xpath("//*[contains(@resource-id, 'search_results_list')]//*[contains(@resource-id, 'page_list_item_title')]"),
+                "Cannot find articles name",
+                5
+        );
+
+        boolean isAllNamesContainSearchValue = listOfArticlesName.stream().allMatch(element -> element.contains(searchValue));
+
+        Assert.assertTrue(
+                "Not all result line contains '" + searchValue + "' search value ", isAllNamesContainSearchValue);
     }
 
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
@@ -271,4 +304,22 @@ public class FirstTest
 
         return flag;
     }
+
+    private List<String> getArticlesName(By by, String errorMessage, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
+        wait.withMessage(errorMessage + "\n");
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+
+        List<WebElement> list = _driver.findElements(by);
+
+        List<String> namesList = new ArrayList<>();
+
+        for(WebElement element : list)
+        {
+            namesList.add(element.getAttribute("text"));
+        }
+
+        return namesList;
+    };
 }
