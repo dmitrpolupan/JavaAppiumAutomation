@@ -139,6 +139,21 @@ public class FirstTest
         Assert.assertEquals("Article header is not equal", "Java (programming language)", articleTitle);
     }
 
+    @Test
+    public void testElementHasText()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'SKIP']"),
+                "Cannot find 'Skip' button",
+                5);
+
+        assertElementHasText(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_container']//*[contains(@class, 'TextView')]"),
+                "Search Wikipedia",
+                "Search field doesn't have expected text"
+                );
+    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
@@ -178,5 +193,12 @@ public class FirstTest
         WebElement element = waitForElementPresent(by, errorMessage, timeoutInSeconds);
         element.clear();
         return element;
+    }
+
+    private void assertElementHasText(By by, String expectedText, String errorMessage)
+    {
+        WebElement element = waitForElementPresent(by, "Cannot find element for test", 5);
+        String elementText = element.getAttribute("text");
+        Assert.assertEquals(errorMessage, expectedText, elementText);
     }
 }
