@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest
 {
@@ -154,6 +155,49 @@ public class FirstTest
                 );
     }
 
+    @Test
+    public void testCancelSearchResults()
+    {
+        waitForElementAndClick(
+                By.id("fragment_onboarding_skip_button"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input field",
+                5);
+
+        waitForElementAndSendKeys(
+                By.id("search_src_text"),
+                "Selenium",
+                "Cannot enter value to search input field",
+                5);
+
+        int countOfArticles = getCountOfWebElements(
+                By.xpath("//*[contains(@resource-id, 'search_results_list')]//*[contains(@class, 'ViewGroup')]"),
+                "Cannot find search results",
+                5
+        );
+
+        Assert.assertTrue("Search results is not displayed after search", countOfArticles > 0);
+
+        waitForElementAndClick(
+                By.id("search_close_btn"),
+                "Cannot find 'Cross' icon",
+                5);
+
+        waitForElementNotPresent(
+                By.id("search_close_btn"),
+                "X is still present on the page",
+                5
+        );
+
+        boolean isResultDisplayed = isElementDisplayed(By.xpath("//*[contains(@resource-id, 'search_results_list')]//*[contains(@class, 'ViewGroup')]"));
+
+        Assert.assertFalse("Search result is still displayed after clear search field", isResultDisplayed);
+    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
@@ -200,5 +244,31 @@ public class FirstTest
         WebElement element = waitForElementPresent(by, "Cannot find element for test", 5);
         String elementText = element.getAttribute("text");
         Assert.assertEquals(errorMessage, expectedText, elementText);
+    }
+
+    private int getCountOfWebElements(By by, String errorMessage, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
+        wait.withMessage(errorMessage + "\n");
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+
+        List<WebElement> list = _driver.findElements(by);
+
+        return list.size();
+    }
+
+    private boolean isElementDisplayed(By by)
+    {
+        boolean flag = true;
+        try
+        {
+            _driver.findElement(by);
+        }
+        catch(Exception e)
+        {
+            flag = false;
+        }
+
+        return flag;
     }
 }
