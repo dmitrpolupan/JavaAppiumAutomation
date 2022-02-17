@@ -27,7 +27,7 @@ public class FirstTest
 
         capabilities.setCapability("platformName", "Android");
         capabilities.setCapability("deviceName", "AndroidTestDevice");
-        capabilities.setCapability("platformVersion", "9");
+        capabilities.setCapability("platformVersion", "8.0");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
         capabilities.setCapability("automationName", "Appium");
