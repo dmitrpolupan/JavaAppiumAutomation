@@ -643,6 +643,48 @@ public class FirstTest
         Assert.assertEquals("Actual article name is not equal to expected one", articleName1, actualTitleName);
     }
 
+    @Test
+    public void testCheckTitleElementExist()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'SKIP']"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input field",
+                5);
+
+        String searchValue = "Java";
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
+                searchValue,
+                "Cannot enter value to search input field",
+                5);
+
+        String articleName = "Java (programming language)";
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = '" + articleName + "']"),
+                "Cannot find article title",
+                5);
+
+        //for testing
+        //try
+        //{
+        //    Thread.sleep(1500);
+        //}
+        //catch(InterruptedException e)
+        //{
+        //}
+
+        boolean isArticleTitlePresent = isElementDisplayed(By.xpath("//*[@resource-id='pcs']/android.view.View[1]/android.view.View[1]"));
+
+        Assert.assertTrue("Article title has not been displayed at the moment of checking", isArticleTitlePresent);
+    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
