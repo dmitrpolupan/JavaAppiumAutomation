@@ -533,6 +533,116 @@ public class FirstTest
         );
     }
 
+    @Test
+    public void testSavingTwoArticles()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'SKIP']"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input field",
+                5);
+
+        String searchValue = "Java";
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
+                searchValue,
+                "Cannot enter value to search input field",
+                5);
+
+        String articleName1 = "JavaScript";
+        String articleName2 = "Java (programming language)";
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = '" + articleName1 + "']"),
+                "Cannot find article title",
+                5);
+
+        waitForElementAndClick(
+                By.id("article_menu_bookmark"),
+                "Cannot find button to click button for saving article",
+                5);
+
+        waitForElementAndClick(
+                By.id("snackbar_action"),
+                "Cannot find link to init saving article process",
+                5);
+
+        String folderForSaving = "Learning articles folder";
+
+        waitForElementAndSendKeys(
+                By.id("text_input"),
+                folderForSaving,
+                "Cannot find input field for entering text for article",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'OK']"),
+                "Cannot find Ok button to save article",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@class, 'ImageButton')]"),
+                "Cannot find Back button in the first time",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = '" + articleName2 + "']"),
+                "Cannot find article title",
+                5);
+
+        waitForElementAndClick(
+                By.id("article_menu_bookmark"),
+                "Cannot find button for saving article",
+                5);
+
+        waitForElementAndClick(
+                By.id("snackbar_action"),
+                "Cannot find link to init saving article process",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/lists_container']//*[@text='" + folderForSaving + "']"),
+                "Cannot find link to init saving article process",
+                5);
+
+        waitForElementAndClick(
+                By.id("snackbar_action"),
+                "Cannot find link to init saving article process",
+                5);
+
+        waitForElementPresent(
+                By.xpath("//*[@text = '" + articleName2 + "']"),
+                "Cannot find saved article - " + articleName2,
+                10);
+
+        swipeElementToLeft(
+                By.xpath("//*[@text = '" + articleName2 + "']"),
+                "Cannot swipe article - " + articleName2);
+
+        waitForElementPresent(
+                By.xpath("//*[@text = '" + articleName1 + "']"),
+                "Cannot find saved article - " + articleName1,
+                10);
+
+        waitForElementAndClick(
+                By.xpath("//*[@text = '" + articleName1 + "']"),
+                "Cannot find saved article - " + articleName1,
+                10);
+
+        String actualTitleName = waitForElementAndGetAttribute(
+                By.xpath("//*[@resource-id='pcs']/android.view.View[1]/android.view.View[1]"),
+                "text",
+                "Cannot find title article",
+                5);
+
+        Assert.assertEquals("Actual article name is not equal to expected one", articleName1, actualTitleName);
+    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
