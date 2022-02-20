@@ -20,6 +20,7 @@ import java.util.List;
 public class FirstTest
 {
     private AppiumDriver _driver;
+    private boolean _isPortraitDefaultState = true;
 
     @Before
     public void setUp() throws Exception
@@ -35,6 +36,8 @@ public class FirstTest
         capabilities.setCapability("app", "D:\\JavaAppiumAutomation\\apks\\org.wikipedia.apk");
 
         _driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+
+        setupOrientation(_isPortraitDefaultState);
     }
 
     @After
@@ -515,7 +518,8 @@ public class FirstTest
 
         waitForElementAndSendKeys(
                 By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
-                "Java", "Cannot enter value to search input field",
+                "Java",
+                "Cannot enter value to search input field",
                 5);
 
         waitForElementPresent(
@@ -685,6 +689,54 @@ public class FirstTest
         Assert.assertTrue("Article title has not been displayed at the moment of checking", isArticleTitlePresent);
     }
 
+    @Test
+    public void testRotation()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[@text = 'SKIP']"),
+                "Cannot find 'Skip' button",
+                5);
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input field",
+                5);
+
+        String searchValue = "Java";
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[@resource-id='org.wikipedia:id/search_src_text']"),
+                searchValue,
+                "Cannot enter value to search input field",
+                5);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = 'Java']"),
+                "Cannot find article title",
+                5);
+
+        _driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = 'Java']"),
+                "Cannot find article title",
+                5);
+
+        String noSuchId = "noSuchId";
+
+        waitForElementPresent(
+                By.id(noSuchId),
+                "Cannot find element with such id + " + noSuchId,
+                2);
+
+        _driver.rotate(ScreenOrientation.PORTRAIT);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = 'Java']"),
+                "Cannot find article title",
+                5);
+    }
+
     private WebElement waitForElementPresent(By by, String errorMessage, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(_driver, timeoutInSeconds);
@@ -845,5 +897,17 @@ public class FirstTest
     {
         WebElement element = waitForElementPresent(by, errorMessage, timeoutSeconds);
         return element.getAttribute(attribute);
+    }
+
+    private void setupOrientation(boolean isPortrait)
+    {
+        if(isPortrait)
+        {
+            _driver.rotate(ScreenOrientation.PORTRAIT);
+        }
+        else
+        {
+            _driver.rotate(ScreenOrientation.LANDSCAPE);
+        }
     }
 }
