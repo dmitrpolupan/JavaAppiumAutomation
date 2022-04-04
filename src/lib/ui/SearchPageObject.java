@@ -15,7 +15,8 @@ public class SearchPageObject extends MainPageObject
                     SEARCH_RESULT = "//*[@resource-id = 'org.wikipedia:id/search_results_list']//*[@text = '{SUBSTRING}']",
                     NO_RESULTS_LABEL = "//*[@text = 'No results']",
                     SEARCH_RESULT_ELEMENT = "//*[contains(@resource-id, 'search_results_list')]//*[contains(@resource-id, 'page_list_item_title')]",
-                    SEARCH_RESULT_ARTICLES_NAMES = "//*[contains(@resource-id, 'search_results_list')]//*[contains(@resource-id, 'page_list_item_title')]";
+                    SEARCH_RESULT_ARTICLES_NAMES = "//*[contains(@resource-id, 'search_results_list')]//*[contains(@resource-id, 'page_list_item_title')]",
+                    SEARCH_RESULT_LOCATOR_FOR_TITLE_DESCRIPTION_TPL = "//*[contains(@resource-id, 'page_list_item_title')][contains(@text, '{TITLE}')]//parent::*//*[contains(@resource-id, 'page_list_item_description')][contains(@text, '{DESCRIPTION}')]";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -115,10 +116,25 @@ public class SearchPageObject extends MainPageObject
         return listOfArticlesName.stream().allMatch(element -> element.contains(searchValue));
     }
 
+    public SearchPageObject waitForElementByTitleAndDescription(String title, String description)
+    {
+        String resultItemWithTitleAndDescriptionXpath = getResultSearchWithTitleAndDescription(title, description);
+        this.waitForElementPresent(
+                By.xpath(resultItemWithTitleAndDescriptionXpath),
+                "Cannot find search result with title + '" + title + "' and description '" + description +"'",
+                5);
+        return this;
+    }
+
     /*TEMPLATE METHODS*/
     private static String getResultSearchElement(String substring)
     {
         return SEARCH_RESULT.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getResultSearchWithTitleAndDescription(String title, String description)
+    {
+        return SEARCH_RESULT_LOCATOR_FOR_TITLE_DESCRIPTION_TPL.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
     }
     /*TEMPLATE METHODS*/
 }

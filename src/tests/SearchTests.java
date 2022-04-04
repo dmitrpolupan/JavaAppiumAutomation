@@ -112,4 +112,26 @@ public class SearchTests extends CoreTestCase
 
         assertTrue("Not all result line contains '" + searchValue + "' search value ", isAllNamesContainSearchValue);
     }
+
+    @Test
+    public void testResultItemsContainsSpecifiedTitlesAndDescriptions()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+
+        String query = "java";
+        String title1 = "Java";
+        String description1 = "Island in Southeast Asia";
+        String title2 = "JavaScript";
+        String description2 = "High-level programming language";
+        String title3 = "Java (programming language)";
+        String description3 = "Object-oriented programming language";
+
+        SearchPageObject
+                .clickSkipButton()
+                .initSearchInput()
+                .typeSearchLine(query)
+                .waitForElementByTitleAndDescription(title1, description1)
+                .waitForElementByTitleAndDescription(title2, description2)
+                .waitForElementByTitleAndDescription(title3, description3);
+    }
 }
