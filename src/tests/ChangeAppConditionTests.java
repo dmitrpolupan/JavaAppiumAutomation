@@ -2,6 +2,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
 
@@ -10,8 +12,8 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testChangeScreenOrientationOnScreenResults()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
 
         String searchValue = "Java";
 
@@ -40,7 +42,7 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testCheckSearchArticleInBackground()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -56,7 +58,7 @@ public class ChangeAppConditionTests extends CoreTestCase
     @Test
     public void testRotation()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()

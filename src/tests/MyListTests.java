@@ -2,8 +2,12 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.MyListPageObject;
-import lib.ui.NavigationUI;
+import lib.ui.NavigationUIPageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.MyListPageObjectFactory;
+import lib.ui.factories.NavigationUIPageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class MyListTests extends CoreTestCase
@@ -11,10 +15,10 @@ public class MyListTests extends CoreTestCase
     @Test
     public void testSaveFirstArticleToMyList()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
-        NavigationUI NavigationUI = new NavigationUI(_driver);
-        MyListPageObject MyListPageObject = new MyListPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
+        NavigationUIPageObject NavigationUI = NavigationUIPageObjectFactory.get(_driver);
+        MyListPageObject MyListPageObject = MyListPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -43,10 +47,10 @@ public class MyListTests extends CoreTestCase
     @Test
     public void testSavingTwoArticles()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
-        NavigationUI NavigationUI = new NavigationUI(_driver);
-        MyListPageObject MyListPageObject = new MyListPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
+        NavigationUIPageObject NavigationUI = NavigationUIPageObjectFactory.get(_driver);
+        MyListPageObject MyListPageObject = MyListPageObjectFactory.get(_driver);
 
         String searchValue = "Java";
 

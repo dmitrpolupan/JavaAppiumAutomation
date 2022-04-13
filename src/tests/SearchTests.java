@@ -1,6 +1,7 @@
 package tests;
 import lib.CoreTestCase;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class SearchTests extends CoreTestCase
@@ -8,7 +9,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -20,7 +21,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCancelSearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -34,7 +35,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testAmountOfNotEmptySearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         String searchValue = "Linkin Park Diskography";
 
@@ -51,7 +52,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testAmountOfEmptySearch()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         String searchValue = "tefgnfgfst";
 
@@ -66,7 +67,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testElementHasText()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -76,7 +77,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testCancelSearchResults()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -99,7 +100,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testEachItemContainsSearchValue()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         String searchValue = "Java";
 
@@ -116,7 +117,7 @@ public class SearchTests extends CoreTestCase
     @Test
     public void testResultItemsContainsSpecifiedTitlesAndDescriptions()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
 
         String query = "java";
         String title1 = "Java";

@@ -2,6 +2,8 @@ package tests;
 import lib.CoreTestCase;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
+import lib.ui.factories.ArticlePageObjectFactory;
+import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
 
 public class ArticleTests extends CoreTestCase
@@ -9,8 +11,8 @@ public class ArticleTests extends CoreTestCase
     @Test
     public void testCompareArticleTitle()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -26,8 +28,8 @@ public class ArticleTests extends CoreTestCase
     @Test
     public void testSwipeArticle()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
@@ -43,8 +45,8 @@ public class ArticleTests extends CoreTestCase
     @Test
     public void testCheckTitleElementExist()
     {
-        SearchPageObject SearchPageObject = new SearchPageObject(_driver);
-        ArticlePageObject ArticlePageObject = new ArticlePageObject(_driver);
+        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(_driver);
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(_driver);
 
         SearchPageObject
                 .clickSkipButton()
