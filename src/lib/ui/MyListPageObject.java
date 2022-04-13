@@ -5,9 +5,9 @@ import org.openqa.selenium.By;
 public class MyListPageObject extends MainPageObject
 {
     private static final String
-            MY_LIST_NOT_NOW_BUTTON = "//*[@text = 'NOT NOW']",
-            FOLDER_BY_NAME_TPL = "//*[@text = '{FOLDER_NAME}']",
-            ARTICLE_TITLE_TPL = "//*[@text = '{ARTICLE_TITLE}']";
+            MY_LIST_NOT_NOW_BUTTON = "xpath://*[@text = 'NOT NOW']",
+            FOLDER_BY_NAME_TPL = "xpath://*[@text = '{FOLDER_NAME}']",
+            ARTICLE_TITLE_TPL = "xpath://*[@text = '{ARTICLE_TITLE}']";
 
     public MyListPageObject(AppiumDriver driver)
     {
@@ -16,15 +16,15 @@ public class MyListPageObject extends MainPageObject
 
     public MyListPageObject clickNotNowButton()
     {
-        this.waitForElementAndClick(By.xpath(MY_LIST_NOT_NOW_BUTTON),"Cannot find 'NOT NOW' button",5);
+        this.waitForElementAndClick(MY_LIST_NOT_NOW_BUTTON,"Cannot find 'NOT NOW' button",5);
         return this;
     }
 
     public MyListPageObject openSavedArticles(String substring)
     {
         String folderNameXpath = getFolderNameXpath(substring);
-        this.waitForElementAndClick(By.xpath(folderNameXpath),"Cannot find Saved list",5);
-        this.waitForElementPresent(By.xpath(folderNameXpath),"Cannot find saved article",10);
+        this.waitForElementAndClick(folderNameXpath,"Cannot find Saved list",5);
+        this.waitForElementPresent(folderNameXpath,"Cannot find saved article",10);
         return this;
     }
 
@@ -32,7 +32,7 @@ public class MyListPageObject extends MainPageObject
     {
         this.waitForArticleToAppearByTitle(articleTitle);
         String articleTitleXpath = getArticleTitleXpath(articleTitle);
-        this.swipeElementToLeft(By.xpath(articleTitleXpath),"Cannot Swipe element");
+        this.swipeElementToLeft(articleTitleXpath,"Cannot Swipe element");
         this.waitForArticleToDisappearByTitle(articleTitle);
         return this;
     }
@@ -40,22 +40,22 @@ public class MyListPageObject extends MainPageObject
     public MyListPageObject waitForArticleToAppearByTitle(String articleTitle)
     {
         String articleTitleXpath = getArticleTitleXpath(articleTitle);
-        this.waitForElementPresent(By.xpath(articleTitleXpath),"Cannot delete saved article",10);
+        this.waitForElementPresent(articleTitleXpath,"Cannot delete saved article",10);
         return this;
     }
 
     public MyListPageObject waitForArticleToDisappearByTitle(String articleTitle)
     {
         String articleTitleXpath = getArticleTitleXpath(articleTitle);
-        this.waitForElementNotPresent(By.xpath(articleTitleXpath),"Cannot delete saved article",10);
+        this.waitForElementNotPresent(articleTitleXpath, "Cannot delete saved article",10);
         return this;
     }
 
     public void openArticleByTitle(String title)
     {
         String atricleTitle = getArticleTitleXpath(title);
-        this.waitForElementPresent(By.xpath(atricleTitle),"Cannot find saved article - " + title,10);
-        this.waitForElementAndClick(By.xpath(atricleTitle),"Cannot find saved article - " + title,10);
+        this.waitForElementPresent(atricleTitle,"Cannot find saved article - " + title,10);
+        this.waitForElementAndClick(atricleTitle,"Cannot find saved article - " + title,10);
     }
 
     /*TEMPLATE METHODS*/

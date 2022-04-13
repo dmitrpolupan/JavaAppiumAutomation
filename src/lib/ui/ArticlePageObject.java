@@ -6,13 +6,13 @@ import org.openqa.selenium.WebElement;
 public class ArticlePageObject extends MainPageObject
 {
     private static final String
-            TITLE = "//*[@resource-id='pcs']/android.view.View[1]/android.view.View[1]",
-            SAVED_ICON = "article_menu_bookmark",
-            ADD_TO_MY_LIST_OVERLAY = "snackbar_action",
-            MY_LIST_NAME_INPUT = "text_input",
-            MY_LIST_OK_BUTTON = "//*[@text = 'OK']",
-            MY_LIST_FOLDER_NAME = "//*[@resource-id='org.wikipedia:id/lists_container']//*[@text='{FOLDER_NAME}']",
-            FOOTER_ELEMENT = "//*[@text = 'View article in browser']";
+            TITLE = "xpath://*[@resource-id='pcs']/android.view.View[1]/android.view.View[1]",
+            SAVED_ICON = "id:article_menu_bookmark",
+            ADD_TO_MY_LIST_OVERLAY = "id:snackbar_action",
+            MY_LIST_NAME_INPUT = "id:text_input",
+            MY_LIST_OK_BUTTON = "xpath://*[@text = 'OK']",
+            MY_LIST_FOLDER_NAME = "xpath://*[@resource-id='org.wikipedia:id/lists_container']//*[@text='{FOLDER_NAME}']",
+            FOOTER_ELEMENT = "xpath://*[@text = 'View article in browser']";
 
     public ArticlePageObject(AppiumDriver driver)
     {
@@ -21,7 +21,7 @@ public class ArticlePageObject extends MainPageObject
 
     public WebElement waitForTitleElement()
     {
-        return this.waitForElementPresent(By.xpath(TITLE), "Cannot find article title on page", 5);
+        return this.waitForElementPresent(TITLE, "Cannot find article title on page", 5);
     }
 
     public String getArticleTitle()
@@ -32,39 +32,39 @@ public class ArticlePageObject extends MainPageObject
 
     public void swipeToFooter()
     {
-        this.swipeUpToFindElement(By.xpath(FOOTER_ELEMENT), "Cannot find the end of article", 20);
+        this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find the end of article", 20);
     }
 
     public ArticlePageObject clickSavedIconAndClickOverlay()
     {
-        this.waitForElementAndClick(By.id(SAVED_ICON),"Cannot find button to click button for saving article",5);
-        this.waitForElementAndClick(By.id(ADD_TO_MY_LIST_OVERLAY),"Cannot find link to init saving article process",5);
+        this.waitForElementAndClick(SAVED_ICON,"Cannot find button to click button for saving article",5);
+        this.waitForElementAndClick(ADD_TO_MY_LIST_OVERLAY,"Cannot find link to init saving article process",5);
         return this;
     }
 
     public void addArticleToMyList(String savedName)
     {
         this.clickSavedIconAndClickOverlay();
-        this.waitForElementAndSendKeys(By.id(MY_LIST_NAME_INPUT), savedName,"Cannot find input field for entering text for article",5);
-        this.waitForElementAndClick(By.xpath(MY_LIST_OK_BUTTON),"Cannot find Ok button to save article",5);
+        this.waitForElementAndSendKeys(MY_LIST_NAME_INPUT, savedName,"Cannot find input field for entering text for article",5);
+        this.waitForElementAndClick(MY_LIST_OK_BUTTON,"Cannot find Ok button to save article",5);
     }
 
     public ArticlePageObject moveToSpecifiedFolder(String folderName)
     {
         String folderNameFromListXpath = getMyListFolderNameXpath(folderName);
-        this.waitForElementAndClick(By.xpath(folderNameFromListXpath),"Cannot find link to init saving article process",5);
+        this.waitForElementAndClick(folderNameFromListXpath,"Cannot find link to init saving article process",5);
         return this;
     }
 
     public ArticlePageObject moveToListWithSavedArticles()
     {
-        this.waitForElementAndClick(By.id(ADD_TO_MY_LIST_OVERLAY),"Cannot find link to init saving article process",5);
+        this.waitForElementAndClick(ADD_TO_MY_LIST_OVERLAY,"Cannot find link to init saving article process",5);
         return this;
     }
 
     public boolean isArticleTitlePresent()
     {
-        return this.isElementDisplayed(By.xpath(TITLE));
+        return this.isElementDisplayed(TITLE);
     }
 
     /*TEMPLATE METHODS*/

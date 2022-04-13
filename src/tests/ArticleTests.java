@@ -53,13 +53,13 @@ public class ArticleTests extends CoreTestCase
                 .clickByArticleWithSubstring("Java (programming language)");
 
         //for testing
-        //try
-        //{
-        //    Thread.sleep(1500);
-        //}
-        //catch(InterruptedException e)
-        //{
-        //}
+        try
+        {
+            Thread.sleep(1500);
+        }
+        catch(InterruptedException e)
+        {
+        }
 
         boolean isArticleTitlePresent = ArticlePageObject.isArticleTitlePresent();
 
